@@ -145,15 +145,54 @@ public:
         config->lookup ( path ).add ( name, libconfig::Setting::TypeList );
     }
 
-    void addArray ( const char * path, const char * name )
+    void addArray_str ( const char * path, const char * name )
     {
         config->lookup ( path ).add ( name, libconfig::Setting::TypeArray );
     }
+    void addArray ( const char * path )
+    {
+        config->lookup ( path ).add ( libconfig::Setting::TypeArray );
+    }
 
-    void appendToList ( const char * path, const char * value )
+    void appendToList_int ( const char * path, int value )
+    {
+        config->lookup ( path ).add ( libconfig::Setting::TypeInt ) = value;
+    }
+
+    void appendToList_bool ( const char * path, bool value)
+    {
+        config->lookup ( path ).add ( libconfig::Setting::TypeBoolean ) = value;
+    }
+
+    void appendToList_float ( const char * path, float value )
+    {
+        config->lookup ( path ).add ( libconfig::Setting::TypeFloat ) = value;
+    }
+
+    void appendToList_double ( const char * path, double value )
+    {
+        config->lookup ( path ).add ( libconfig::Setting::TypeFloat ) = value;
+    }
+
+    void appendToList_longlong ( const char * path, long long value )
+    {
+        config->lookup ( path ).add ( libconfig::Setting::TypeInt64 ) = value;
+    }
+    void appendToList_long( const char * path, long value )
+    {
+        config->lookup ( path ).add ( libconfig::Setting::TypeInt ) = value;
+    }
+    void appendToList_str ( const char * path, const char * value )
     {
         config->lookup ( path ).add ( libconfig::Setting::TypeString ) = value;
     }
+
+
+    void appendToList_Group ( const char * path )
+    {
+        config->lookup ( path ).add ( libconfig::Setting::TypeGroup );
+    }
+
 
     void setValue_bool ( const char * path, bool value )
     {
@@ -216,6 +255,7 @@ BOOST_PYTHON_MODULE ( pylibconfig )
         .def("addGroup", &pyConfig::addGroup )
         .def("addList", &pyConfig::addList )
         .def("addArray", &pyConfig::addArray )
+        .def("addArray", &pyConfig::addArray_str )
         .def("setValue", &pyConfig::setValue_bool )
         .def("setValue", &pyConfig::setValue_float )
         .def("setValue", &pyConfig::setValue_double )
@@ -223,6 +263,13 @@ BOOST_PYTHON_MODULE ( pylibconfig )
         .def("setValue", &pyConfig::setValue_long )
         .def("setValue", &pyConfig::setValue_int )
         .def("setValue", &pyConfig::setValue_str )
-        .def("appendToList", &pyConfig::appendToList )
+        .def("appendToList", &pyConfig::appendToList_Group )
+        .def("appendToList", &pyConfig::appendToList_bool )
+        .def("appendToList", &pyConfig::appendToList_float )
+        .def("appendToList", &pyConfig::appendToList_double)
+        .def("appendToList", &pyConfig::appendToList_longlong )
+        .def("appendToList", &pyConfig::appendToList_long )
+        .def("appendToList", &pyConfig::appendToList_int )
+        .def("appendToList", &pyConfig::appendToList_str)
     ;
 }
